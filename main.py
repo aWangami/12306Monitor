@@ -212,7 +212,7 @@ class MonitorWrapper(object):
 
     def test(self):
         external = ''
-        if _GLOBAL.postWebHook.endswith('073af254'):
+        if _GLOBAL.enablePostWebHook and _GLOBAL.postWebHook.endswith('073af254'):
             external = u' (%s)'
             read = os.popen('git config user.email')
             read = read.read()
