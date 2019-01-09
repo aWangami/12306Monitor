@@ -1,0 +1,23 @@
+{
+    "-------------------------": "--------------------------",
+    "dingTokenListImportant": ["请替换这里的Token"],
+    "-------------------------": "--------------------------",
+    "monitorWord": ["成功", "失败"],
+    "gohomeWord": ["抢票成功"],
+    "dingTokenListVerbose": ["如果需要，请替换这里的Token", "如果需要，请替换这里的Token"],
+    "-------------------------": "--------------------------",
+    "enableGetWebHook": false,
+    "enablePostWebHook": true,
+    "getWebHook": "http://www.sample.com?param1=$message&param2=value2",
+    "postWebHook": "https://oapi.dingtalk.com/robot/send?access_token=05eeaecaab2b4faa88af7823f21d8f39037d64dfcfc783a7456f94fc073af254",
+    "postWebHookData": {
+        "msgtype": "text", 
+        "text": {
+            "content": "$message"
+        }
+    },
+    "postWebHookType": "json",
+    "-------------------------": "--------------------------",
+    "interval": 1,
+    "-------------------------": "--------------------------"
+}
