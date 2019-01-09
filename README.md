@@ -40,8 +40,7 @@
 
 ### 运行
 
-- 修改配置后，将"12306ByPass"运行于前台，执行`python main.py` 即可
-- 程序启动后，"12306ByPass"可以将其最小化
+- 修改配置后，执行`python main.py` 即可
 - 另外可以执行`python test.py`测试通知是否正常，请修改`config.json`后测试
 
 ### 拓展
