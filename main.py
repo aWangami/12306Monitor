@@ -28,7 +28,7 @@ class Notifier(object):
         isPush = False
         if len(self.dingTokenListImportant) != 0:
             isPush = True
-            result = self.pushToDingDing(msg, self.dingTokenListImportant)
+            result = self.pushToDingDing(msg, self.dingTokenListImportant, True)
             print(u'[推送消息] %s' % (list(result)))
         if self.enableWebHook:
             isPush = True
@@ -47,12 +47,14 @@ class Notifier(object):
     def setDingTokenListVerbose(self, tokenList):
         self.dingTokenListVerbose = tokenList
 
-    def pushToDingDing(self, msg, tokenList):
+    def pushToDingDing(self, msg, tokenList, isAtAll = False):
         token = tokenList[random.randint(0, len(tokenList) - 1)]
-        return self.pushToDingDingInner(token, msg)
+        return self.pushToDingDingInner(token, msg, isAtAll)
 
-    def pushToDingDingInner(self, token, msg):
+    def pushToDingDingInner(self, token, msg, isAtAll = False):
         reqData = {'msgtype': 'text','text': {'content': msg}}
+        if isAtAll:
+            reqData['at'] = {'isAtAll': True}
         url = 'https://oapi.dingtalk.com/robot/send?access_token=%s' % (token)
         try:
             resp = requests.post(url = url, data = json.dumps(reqData, separators=(',', ':')), headers = {'Content-Type': 'application/json'}, verify = False)
