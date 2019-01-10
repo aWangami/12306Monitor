@@ -71,6 +71,7 @@
 #### 语音电话
 
 - 注册[云片](https://www.yunpian.com)，新用户有10条语音短信的额度
+    + 友情提醒，我注册后没隔多久就接到了客服打来的营销电话
 - 获取APIKEY，填入`yunpianApiKey`字段
 - 配置`enableMobile`为`true`
 - 配置接收电话的手机号`notifyMobile`
