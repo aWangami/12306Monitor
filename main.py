@@ -17,13 +17,21 @@ class Struct:
     def __init__(self, entries):
         self.__dict__.update(entries)
 
-def getConfigFile():
+def getConfigFile(name = 'config.json'):
     scriptFile = sys.argv[0]
-    return os.path.join(os.path.split(os.path.realpath(scriptFile))[0], 'config.json')
+    return os.path.join(os.path.split(os.path.realpath(scriptFile))[0], name)
 
-_GLOBAL = Struct(json.load(open(getConfigFile())))
+configFile = getConfigFile('local.json')
+if not os.path.exists(configFile):
+    configFile = getConfigFile('config.json')
+_GLOBAL = Struct(json.load(open(configFile)))
 
 class Notifier(object):
+    def __init__(self):
+        self.enableMobile = False
+        self.yunpianApiKey = None
+        self.notifyMobile = None
+
     def important(self, msg):
         isPush = False
         if len(self.dingTokenListImportant) != 0:
@@ -34,6 +42,11 @@ class Notifier(object):
             isPush = True
             result = self.runWebHook(msg)
             print(u'[推送消息] %s' % (list(result)))
+        if self.enableMobile and self.notifyMobile != None:
+            if self.yunpianApiKey != None:
+                isPush = True
+                result = self.notifyByYunPian(self.yunpianApiKey, self.notifyMobile)
+                print(u'[推送消息] %s' % (list(result)))
         if not isPush:
             print(u'[警告] 没有找到推送方式，请检查config.json文件')
 
@@ -104,6 +117,27 @@ class Notifier(object):
         except Exception as e:
             return False, e
 
+    def setEnableMobile(self, enable):
+        self.enableMobile = enable
+
+    def setYunPianApiKey(self, yunpianApiKey):
+        self.yunpianApiKey = yunpianApiKey
+
+    def setNotifyMobile(self, notifyMobile):
+        self.notifyMobile = notifyMobile
+
+    def notifyByYunPian(self, yunpianApiKey, notifyMobile):
+        url = 'https://voice.yunpian.com/v2/voice/send.json'
+        resp = requests.post(url, {
+            'apikey': yunpianApiKey,
+            'mobile': notifyMobile,
+            'code': '12306'
+        }, headers = {
+            'Accept': 'application/json;charset=utf-8;',
+            'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8;'
+        })
+        return resp.status_code == 200, resp.text
+
 class Monitor(object):
     def __init__(self, handler, monitorWord = [], gohomeWord = [], debug = True):
         self.handler = handler
@@ -153,6 +187,10 @@ class MonitorWrapper(object):
             self.notifier.setWebHookDataType(_GLOBAL.postWebHookType)
         else:
             self.notifier.setEnableWebHook(False)
+        if _GLOBAL.enableMobile:
+            self.notifier.setEnableMobile(True)
+            self.notifier.setYunPianApiKey(_GLOBAL.yunpianApiKey)
+            self.notifier.setNotifyMobile(_GLOBAL.notifyMobile)
 
     def findWindow(self):
         handlerList = []     

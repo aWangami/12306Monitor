@@ -68,10 +68,23 @@
 }
 ```
 
-#### TODO 强通知 (要是早上抢到票还没睡醒怎么办？)
+#### 语音电话
 
-- TODO: 语音电话(可使用语音验证码代替)
-- TODO: IFTTT+手机客户端
+- 注册云片(https://www.yunpian.com)，新用户有10条语音短信的额度
+- 获取APIKEY，填入`yunpianApiKey`字段
+- 配置`enableMobile`为`true`
+- 配置接收电话的手机号`notifyMobile`
+- `python test.py`测试，你会接到一个验证码为12306的电话😊
+
+```JSON
+{
+    "...": "...",
+    "enableMobile": true,
+    "yunpianApiKey": "APIKEY",
+    "notifyMobile": "手机号",
+    "...": "..."
+}
+```
 
 ---
 
