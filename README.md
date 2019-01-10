@@ -70,7 +70,7 @@
 
 #### 语音电话
 
-- 注册云片(https://www.yunpian.com)，新用户有10条语音短信的额度
+- 注册[云片](https://www.yunpian.com)，新用户有10条语音短信的额度
 - 获取APIKEY，填入`yunpianApiKey`字段
 - 配置`enableMobile`为`true`
 - 配置接收电话的手机号`notifyMobile`
